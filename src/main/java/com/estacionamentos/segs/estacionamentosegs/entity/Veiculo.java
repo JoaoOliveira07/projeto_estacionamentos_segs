@@ -11,31 +11,22 @@ import java.util.ArrayList;
 @Entity
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "veiculos")
 public class Veiculo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "veiculo_id")
+    @Column(name = "id")
     private int id;
     @Column(name = "placa_veiculo")
     private String placa;
     @Column(name = "modelo_veiculo")
     private String modelo;
-    @Column(name = "ano_carro")
+    @Column(name = "ano_veiculo")
     private int ano;
     @Column(name = "tipo_veiculo")
     private String tipo;
-
-    public Veiculo() {
-
-    }
-
-    public Veiculo(String placa, String modelo, int ano, String tipo) {
-        this.placa = placa;
-        this.modelo = modelo;
-        this.ano = ano;
-        this.tipo = tipo;
-    }
 
 }

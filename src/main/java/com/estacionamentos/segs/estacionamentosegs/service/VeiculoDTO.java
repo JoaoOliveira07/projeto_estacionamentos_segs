@@ -1,11 +1,15 @@
 package com.estacionamentos.segs.estacionamentosegs.service;
 
 import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class VeiculoDTO {
 
     private int id;
@@ -14,9 +18,6 @@ public class VeiculoDTO {
     private int ano;
     private String tipo;
 
-    public VeiculoDTO() {
-
-    }
 
     public VeiculoDTO(String placa, String modelo, int ano, String tipo) {
         this.placa = placa;
