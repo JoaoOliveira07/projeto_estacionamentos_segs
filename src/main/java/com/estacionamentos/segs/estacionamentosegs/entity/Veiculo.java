@@ -12,13 +12,10 @@ import java.util.ArrayList;
 @Builder
 @Data
 @Table(name = "veiculos")
-@AllArgsConstructor
-@NoArgsConstructor
 public class Veiculo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "veiculo_id")
     private int id;
     @Column(name = "placa_veiculo")
@@ -29,6 +26,10 @@ public class Veiculo {
     private int ano;
     @Column(name = "tipo_veiculo")
     private String tipo;
+
+    public Veiculo() {
+
+    }
 
     public Veiculo(String placa, String modelo, int ano, String tipo) {
         this.placa = placa;

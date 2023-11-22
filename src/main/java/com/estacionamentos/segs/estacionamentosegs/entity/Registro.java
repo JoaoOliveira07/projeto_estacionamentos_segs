@@ -2,8 +2,6 @@ package com.estacionamentos.segs.estacionamentosegs.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,5 +23,13 @@ public class Registro {
     @Column(name = "campo_valor")
     private double valor;
 
+    public Registro(){
 
+    }
+
+    public Registro(Veiculo veiculos, LocalDateTime entrada, LocalDateTime saida, double valor) {
+        this.veiculos = veiculos;
+        this.entrada = entrada;
+        this.saida = saida;
+    }
 }
