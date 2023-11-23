@@ -38,12 +38,12 @@ public class EstacionamentoService {
 //        }
 //    }
 
-    public void cadastrarVeiculo(String placa, String modelo, int ano, String tipo) {
+    public void cadastrarVeiculo(VeiculoDTO veiculoDTO) {
         Veiculo veiculo = new Veiculo();
-        veiculo.setPlaca(placa);
-        veiculo.setModelo(modelo);
-        veiculo.setAno(ano);
-        veiculo.setTipo(tipo);
+        veiculo.setPlaca(veiculoDTO.getPlaca());
+        veiculo.setModelo(veiculoDTO.getModelo());
+        veiculo.setAno(veiculoDTO.getAno());
+        veiculo.setTipo(veiculoDTO.getTipo());
 
         // Salvar o veículo no banco de dados
         veiculoRepository.save(veiculo);
