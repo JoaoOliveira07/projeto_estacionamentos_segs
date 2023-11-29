@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <title>Save Employee</title>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h3>Cadastro</h3>
+    <hr>
+
+    <p class="h4 mb-4">Cadastrar Veículo</p>
+
+    <form action="#" th:action="@{/veiculos/save}" th:object="${veiculoRegistroDTO}" method="POST">
+
+        <!-- Add hidden form field to handle update -->
+        <input type="hidden" th:field="*{veiculo.id}" />
+        <input type="hidden" th:field="*{registro.id}" />
+
+        <h6>Placa</h6>
+        <input type="text" th:field="*{veiculo.placa}"
+               class="form-control mb-4 w-25" placeholder="MIG8223">
+
+        <h6>Modelo</h6>
+        <input type="text" th:field="*{veiculo.modelo}"
+               class="form-control mb-4 w-25" placeholder="Clio">
+
+        <h6>Ano</h6>
+        <input type="text" th:field="*{veiculo.ano}"
+               class="form-control mb-4 w-25" placeholder="2011">
+
+        <h6>Tipo do Veículo</h6>
+        <input type="text" th:field="*{veiculo.tipo}"
+               class="form-control mb-4 w-25" placeholder="Carro">
+
+        <h6>Horário de entrada</h6>
+        <input type="text" th:field="*{registro.entrada}"
+               class="form-control mb-4 w-25" placeholder="January 7, 2023 10:00:00">
+
+        <h6>Horário de saída</h6>
+        <input type="text" th:field="*{registro.saida}"
+               class="form-control mb-4 w-25" placeholder="January 7, 2023 10:00:00">
+
+        <button type="submit" class="btn btn-info col-2">Salvar</button>
+
+    </form>
+
+    <hr>
+    <a th:href="@{/veiculos/list}">Voltar para o Controle</a>
+
+</div>
+
+
+</body>
+
+</html>

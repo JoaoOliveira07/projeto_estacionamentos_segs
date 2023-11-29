@@ -28,3 +28,7 @@ public class Registro {
     @Column(name = "campo_valor")
     private double valor;
 }
+
+
+
+
