@@ -1,8 +1,8 @@
 package com.estacionamentos.segs.estacionamentosegs.controller;
 
 import com.estacionamentos.segs.estacionamentosegs.entity.Veiculo;
-import com.estacionamentos.segs.estacionamentosegs.service.EstacionamentoService;
 import com.estacionamentos.segs.estacionamentosegs.service.VeiculoRegistroDTO;
+import com.estacionamentos.segs.estacionamentosegs.service.VeiculoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +14,17 @@ import java.util.List;
 @RequestMapping("/veiculos")
 public class VeiculoController {
 
-    private EstacionamentoService veiculoService;
+    private VeiculoService veiculoService;
 
-    public VeiculoController(EstacionamentoService theVeiculoService) {
-        veiculoService = theVeiculoService;
+
+    public VeiculoController() {
     }
 
-    // add mapping for "/list"
+    public VeiculoController(VeiculoService theVeiculoService) {
+        this.veiculoService = theVeiculoService;
+    }
+
+// add mapping for "/list"
 
     @GetMapping("/list")
     public String listVeiculos(Model theModel) {
@@ -72,7 +76,7 @@ public class VeiculoController {
     public String delete(@RequestParam("veiculoId") int theId) {
 
         // delete the employee
-        veiculoService.deleteById(theId);
+//        veiculoService.deleteById(theId);
 
         // redirect to /employees/list
         return "redirect:/veiculos/list";
