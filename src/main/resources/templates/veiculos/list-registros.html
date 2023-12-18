@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Bootstrap JS (without Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
+
+    <!-- Select2 CSS and JS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+    <script>
+        function mostrarModalSaida(btnSaida) {
+            const id = $(btnSaida).attr('data-id');
+            var dataAtual = new Date();
+            var dataHoraAtual =
+                ('0' + dataAtual.getDate()).slice(-2) + '/' +
+                ('0' + (dataAtual.getMonth() + 1)).slice(-2) + '/' +
+                dataAtual.getFullYear() + ' ' +
+                ('0' + dataAtual.getHours()).slice(-2) + ':' +
+                ('0' + dataAtual.getMinutes()).slice(-2) + ':' +
+                ('0' + dataAtual.getSeconds()).slice(-2);
+
+            $('#dataHoraSaida').val(dataHoraAtual);
+
+            var placa = $(btnSaida).data('placa');
+            $('#modalSaida').find('[name="placa"]').val(placa);
+
+            // Obtenha as coordenadas do botão de saída
+            var btnPosition = $(btnSaida).offset();
+            var btnWidth = $(btnSaida).outerWidth();
+            var btnHeight = $(btnSaida).outerHeight();
+
+            $('#modalSaida-' + id).modal('show');
+        }
+
+        $(document).ready(function () {
+            $('.modalSaida').on('click', '.btnFechar', function () {
+                $(this).closest('.modalSaida').modal('hide');
+            });
+
+            $('#modalSaida').on('click', '#btnFechar', function () {
+                $('#modalSaida').modal('hide');
+                $('#modalSaidaForm')[0].reset();
+            });
+
+            $('.modalSaida').on('click', '.btnSalvarSaida', function () {
+                $(this).closest('form').submit();
+            });
+
+            $('#btnGerarRelatorio').on('click', function () {
+                var outputPath = $('#outputPath').val();
+                // Atualize o endpoint do back-end conforme necessário
+                var downloadEndpoint = '/gerarRelatorio?outputPath=' + outputPath;
+                // Redirecione para o endpoint de download
+                window.location.href = downloadEndpoint;
+            });
+            });
+
+function changeOrderBy() {
+        var selectElement = document.getElementById("orderBySelect");
+        var selectedValue = selectElement.options[selectElement.selectedIndex].value;
+        window.location.href = "/listagemDeRegistros?orderBy=" + selectedValue;
+    }
+
+    // Verificar e armazenar a opção selecionada no localStorage
+    $(document).ready(function () {
+        var orderBySelect = document.getElementById("orderBySelect");
+
+        orderBySelect.addEventListener("change", function () {
+            var selectedValue = orderBySelect.options[orderBySelect.selectedIndex].value;
+            localStorage.setItem("selectedOrderBy", selectedValue);
+        });
+
+        // Restaurar a opção selecionada durante o carregamento da página
+        var storedOrderBy = localStorage.getItem("selectedOrderBy");
+        if (storedOrderBy) {
+            $("#orderBySelect").val(storedOrderBy);
+        }
+    });
+
+function realizarPesquisaAoVivo() {
+    var filtro = $('#filterInput').val(); // Obtenha o valor do filtro
+
+    // Faça uma solicitação AJAX para o servidor
+    $.ajax({
+        type: 'GET',
+        url: '/listagemDeRegistros',
+        data: {
+            filter: filtro,
+            orderBy: 'STATUS_DESC' // Você pode modificar isso conforme necessário
+        },
+        success: function (data) {
+            // Limpe o conteúdo atual da tabela
+           // $('#registrosTbody').empty();
+
+            // Adicione os novos resultados à tabela
+            //$('#registrosTbody').innerHtml = data;
+
+
+            var novaPaginaHTML = data;
+            var novoElemento = document.createElement('div');
+            novoElemento.innerHTML = novaPaginaHTML;
+
+            // Substitua o conteúdo atual da página pelo novo elemento
+            document.body.innerHTML = novoElemento.innerHTML;
+        },
+        error: function (erro) {
+            console.error('Erro durante a pesquisa ao vivo:', erro);
+        }
+    });
+}
+
+    </script>
+
+
+    <style>
+        body {
+            background-color: #f2f2f2;
+        }
+
+        hr {
+            border-width: 2px;
+            border-color: black;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+        .contaiiner {
+             display: flex;
+             justify-content: space-between; /* Isso distribuirá os elementos igualmente na linha */
+             align-items: center; /* Isso centralizará verticalmente os elementos */
+        }
+    </style>
+    <title>Seg's Estacionamento</title>
+</head>
+
+<body>
+
+<div class="container">
+    <br>
+    <div th:if="${mensagemSucesso != null}" class="alert alert-success">
+        <p th:text="${mensagemSucesso}"></p>
+    </div>
+
+    <div th:if="${mensagemErro != null}" class="alert alert-danger">
+        <p th:text="${mensagemErro}"></p>
+    </div>
+    <h3>Controle de Registros</h3>
+    <hr>
+
+    <!-- Add buttons -->
+    <a th:href="@{/veiculos/showFormForAdd}" class="btn btn-primary btn-sm mb-3">Adicionar Veiculo</a>
+    <a th:href="@{/veiculos/listagemDeVeiculos}" class="btn btn-primary btn-sm mb-3">Listagem de Veiculos</a>
+    <button id="btnGerarRelatorio" class="btn btn-primary btn-sm mb-3">Gerar Relatório</button>
+    <div class="contaiiner">
+        <div class="mb-3">
+            <label for="filterInput">Pesquisar por Placa, Modelo ou Tipo:</label>
+            <div class="input-group">
+                <input id="filterInput" class="form-control" name="filter">
+                <div class="input-group-append">
+                    <button onclick="realizarPesquisaAoVivo()" class="btn btn-outline-primary" type="button">
+                        <i class="bi bi-search text-white"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label>Ordenar por:</label>
+            <select class="form-control" id="orderBySelect" name="orderBy" onchange="changeOrderBy()">
+                <option value="PLACA_DESC" th:selected="${orderBy == 'PLACA_DESC'}">Placa</option>
+                <option value="MODELO_DESC" th:selected="${orderBy == 'MODELO_DESC'}">Modelo</option>
+                <option value="TIPO_DESC" th:selected="${orderBy == 'TIPO_DESC'}">Tipo</option>
+                <option value="ENTRADA_DESC" th:selected="${orderBy == 'ENTRADA_DESC'}">Entrada</option>
+                <option value="SAIDA_DESC" th:selected="${orderBy == 'SAIDA_DESC'}">Saída</option>
+                <option value="VALOR_DESC" th:selected="${orderBy == 'VALOR_DESC'}">Valor</option>
+                <option value="STATUS_DESC" th:selected="${orderBy == 'STATUS_DESC'}">Status</option>
+            </select>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Placa</th>
+            <th>Modelo</th>
+            <th>Tipo do Veiculo</th>
+            <th>Entrada</th>
+            <th>Saida</th>
+            <th>Valor</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+
+        <tbody  id="registrosTbody">
+        <tr th:each="registro : ${registros}">
+            <td th:text="${registro.placa}"></td>
+            <td th:text="${registro.modelo}"></td>
+            <td th:text="${registro.tipo}"></td>
+            <td th:text="${#temporals.format(registro.entrada, 'dd/MM/yyyy HH:mm:ss')}"></td>
+            <td>
+                <div class="row">
+                    <div class="col-small">
+                        <form th:action="@{/veiculos/saveSaida}" method="POST" class="text-center">
+                            <div class="modal" id="modalSaida" th:attr="id=${'modalSaida-'+registro.id}" tabindex="-1" role="dialog">
+                                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                                    <!-- Utilize a classe modal-sm para tornar o modal pequeno -->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Saída do Veículo</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <label for="dataHoraSaida">Data e Hora de Saída:</label>
+                                            <input type="hidden" name="placa" th:value="${registro.placa}"/>
+                                            <input type="datetime-local" id="dataHoraSaida" name="saida" step="1" required>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary" id="btnSalvarSaida">Salvar Saída</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-danger btn-sm"
+                                    th:attr="data-id=${registro.id}"
+                                    onclick="mostrarModalSaida(this)"
+                                    th:if="${registro.saida == null and not #strings.isEmpty(registro.placa)}"
+                                    th:data-placa="${registro.placa}">SAÍDA
+                            </button>
+                        </form>
+                        <div th:if="${registro.saida != null}">
+                            <span th:text="${#temporals.format(registro.saida, 'dd/MM/yyyy HH:mm:ss')}"></span>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td th:text="${registro.valor}"></td>
+            <td th:text="${registro.status}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

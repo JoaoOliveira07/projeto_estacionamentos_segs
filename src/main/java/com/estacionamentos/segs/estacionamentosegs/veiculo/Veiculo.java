@@ -1,4 +1,4 @@
-package com.estacionamentos.segs.estacionamentosegs.entity;
+package com.estacionamentos.segs.estacionamentosegs.veiculo;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -24,9 +24,14 @@ public class Veiculo {
     private String placa;
     @Column(name = "modelo_veiculo")
     private String modelo;
-    @Column(name = "ano_veiculo")
-    private int ano;
     @Column(name = "tipo_veiculo")
     private String tipo;
 
+    private LocalDateTime deleteTimeStamp;
+
+    public Veiculo(String placa, String modelo, String tipo) {
+        this.placa = placa;
+        this.modelo = modelo;
+        this.tipo = tipo;
+    }
 }

@@ -1,5 +1,6 @@
-package com.estacionamentos.segs.estacionamentosegs.entity;
+package com.estacionamentos.segs.estacionamentosegs.veiculo.registro;
 
+import com.estacionamentos.segs.estacionamentosegs.veiculo.Veiculo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,7 +29,3 @@ public class Registro {
     @Column(name = "campo_valor")
     private double valor;
 }
-
-
-
-

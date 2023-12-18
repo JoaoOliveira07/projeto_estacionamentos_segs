@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- Adicione esta seção ao final do seu corpo HTML -->
+    <script>
+        $(document).ready(function () {
+            var placaOriginal = $('#placaInput').val(); // Armazena a placa original ao carregar a página
+
+            $('#placaInput').blur(function () {
+                // Quando o campo de placa perde o foco, faça a validação
+                var placaNova = $(this).val();
+
+                // Verifica se a placa foi alterada
+                if (placaNova !== placaOriginal) {
+                    // Realize uma solicitação Ajax para verificar se a placa já existe
+                    $.ajax({
+                        url: '/veiculos/verificarPlaca/' + placaNova,
+                        type: 'GET',
+                        success: function (response) {
+                            if (response.id != null) {
+                                // Placa já existente
+                                alert('Placa já existente');
+                                // Desabilitar o botão de salvar
+                                $('button[type="submit"]').prop('disabled', true);
+                            } else {
+                                // Placa alterada, botão habilitado
+                                alert('Placa alterada');
+                                $('button[type="submit"]').prop('disabled', false);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    <style>
+        body {
+        background-color: #f2f2f2;
+        }
+        hr {
+        border-width: 2px;
+        border-color: black;
+        }
+    </style>
+    <title>Seg's Estacionamento</title>
+</head>
+<body>
+<div class="container">
+    <br>
+    <br>
+    <h3>Alterar Veículo</h3>
+    <hr>
+    <br>
+    <p class="h4 mb-4">Alteração Veículo</p>
+    <!-- Formulário para Atualizar Veículo -->
+    <form th:action="@{/veiculos/saveUpdate}" th:object="${veiculos}" method="POST">
+        <input type="hidden" th:field="*{id}"/>
+        <h6>Placa</h6>
+        <input type="text" th:field="*{placa}" class="form-control mb-4 w-25" maxlength="7" minlength="7" id="placaInput">
+        <h6>Modelo</h6>
+        <input type="text" th:field="*{modelo}" class="form-control mb-4 w-25" maxlength="15">
+        <h6>Tipo do Veículo</h6>
+        <input type="text" th:field="*{tipo}" class="form-control mb-4 w-25" maxlength="5">
+        <button type="submit" class="btn btn-info col-2">Salvar</button>
+    </form>
+    <!-- Fim do Formulário para Atualizar Veículo -->
+    <hr>
+    <a th:href="@{/veiculos/listagemDeVeiculos}">Voltar para Veículos</a>
+</div>
+<!-- JavaScript to set the current date and time -->
+</body>
+</html>
