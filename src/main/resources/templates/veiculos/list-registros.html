@@ -1,24 +1,19 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
     <!-- Bootstrap JS (without Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
-
     <!-- Select2 CSS and JS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-
     <script>
         function mostrarModalSaida(btnSaida) {
             const id = $(btnSaida).attr('data-id');
@@ -67,14 +62,14 @@
             });
             });
 
-function changeOrderBy() {
+        function changeOrderBy() {
         var selectElement = document.getElementById("orderBySelect");
         var selectedValue = selectElement.options[selectElement.selectedIndex].value;
         window.location.href = "/registros/listagemDeRegistros?orderBy=" + selectedValue;
-    }
+        }
 
-    // Verificar e armazenar a opção selecionada no localStorage
-    $(document).ready(function () {
+        // Verificar e armazenar a opção selecionada no localStorage
+        $(document).ready(function () {
         var orderBySelect = document.getElementById("orderBySelect");
 
         orderBySelect.addEventListener("change", function () {
@@ -87,13 +82,13 @@ function changeOrderBy() {
         if (storedOrderBy) {
             $("#orderBySelect").val(storedOrderBy);
         }
-    });
+        });
 
-function realizarPesquisaAoVivo() {
-    var filtro = $('#filterInput').val(); // Obtenha o valor do filtro
+        function realizarPesquisaAoVivo() {
+        var filtro = $('#filterInput').val(); // Obtenha o valor do filtro
 
-    // Faça uma solicitação AJAX para o servidor
-    $.ajax({
+        // Faça uma solicitação AJAX para o servidor
+        $.ajax({
         type: 'GET',
         url: '/registros/listagemDeRegistros',
         data: {
@@ -118,48 +113,40 @@ function realizarPesquisaAoVivo() {
         error: function (erro) {
             console.error('Erro durante a pesquisa ao vivo:', erro);
         }
-    });
-}
+        });
+        }
 
     </script>
-
-
     <style>
         body {
-            background-color: #f2f2f2;
+        background-color: #f2f2f2;
         }
-
         hr {
-            border-width: 2px;
-            border-color: black;
+        border-width: 2px;
+        border-color: black;
         }
-
         .text-center {
-            text-align: center;
+        text-align: center;
         }
         .contaiiner {
-             display: flex;
-             justify-content: space-between; /* Isso distribuirá os elementos igualmente na linha */
-             align-items: center; /* Isso centralizará verticalmente os elementos */
+        display: flex;
+        justify-content: space-between; /* Isso distribuirá os elementos igualmente na linha */
+        align-items: center; /* Isso centralizará verticalmente os elementos */
         }
     </style>
     <title>Seg's Estacionamento</title>
 </head>
-
 <body>
-
 <div class="container">
     <br>
     <div th:if="${mensagemSucesso != null}" class="alert alert-success">
         <p th:text="${mensagemSucesso}"></p>
     </div>
-
     <div th:if="${mensagemErro != null}" class="alert alert-danger">
         <p th:text="${mensagemErro}"></p>
     </div>
     <h3>Controle de Registros</h3>
     <hr>
-
     <!-- Add buttons -->
     <a th:href="@{/veiculos/showFormForAdd}" class="btn btn-primary btn-sm mb-3">Adicionar Veiculo</a>
     <a th:href="@{/veiculos/listagemDeVeiculos}" class="btn btn-primary btn-sm mb-3">Listagem de Veiculos</a>
@@ -204,7 +191,6 @@ function realizarPesquisaAoVivo() {
             <th>Status</th>
         </tr>
         </thead>
-
         <tbody  id="registrosTbody">
         <tr th:each="registro : ${registros}">
             <td th:text="${registro.placa}"></td>
@@ -256,6 +242,5 @@ function realizarPesquisaAoVivo() {
         </tbody>
     </table>
 </div>
-
 </body>
 </html>

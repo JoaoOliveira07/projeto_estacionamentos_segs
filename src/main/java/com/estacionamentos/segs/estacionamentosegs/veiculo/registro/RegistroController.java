@@ -24,8 +24,8 @@ public class RegistroController {
         this.registroService = registroService;
         this.relatorioService = relatorioService;
     }
-    //Listagem de veículo e registros
 
+    //Listagem de veículo e registros
     @GetMapping("/gerarRelatorio")
     public ResponseEntity<byte[]> gerarRelatorio(
             @RequestParam("outputPath") String outputPath
@@ -33,7 +33,6 @@ public class RegistroController {
         List<Registro> registros = registroService.findAll();
 
         byte[] relatorioBytes = relatorioService.gerarRelatorio(registros);
-
         // Configurar o cabeçalho para indicar o tipo de conteúdo e o nome do arquivo
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
@@ -48,9 +47,7 @@ public class RegistroController {
                                 @RequestParam(name = "orderBy", required = false, defaultValue = "STATUS_DESC") String orderBy) {
 
         List<RegistroVeiculoDTO> registros = registroService.findAllByFilter(filter, orderBy);
-
         theModel.addAttribute("registros", registros);
-
         return "veiculos/list-registros";
     }
 

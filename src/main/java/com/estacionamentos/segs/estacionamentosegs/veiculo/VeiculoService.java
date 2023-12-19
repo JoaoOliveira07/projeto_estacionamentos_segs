@@ -63,8 +63,6 @@ public class VeiculoService {
         veiculoRepository.save(theVeiculo);
     }
 
-
-
     public Veiculo getVeiculoByPlaca(String placa) {
         if (!placa.matches("^([A-Z]{3}[0-9]{1}[A-Z]{1}[0-9]{2})|([A-Z]{3}[0-9]{4})$")) {
             // Placa inválida, você pode lançar uma exceção, retornar null ou lidar de outra forma

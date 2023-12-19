@@ -1,11 +1,6 @@
 package com.estacionamentos.segs.estacionamentosegs.veiculo;
 
-import com.estacionamentos.segs.estacionamentosegs.veiculo.registro.Registro;
-import com.estacionamentos.segs.estacionamentosegs.veiculo.Veiculo;
 import com.estacionamentos.segs.estacionamentosegs.veiculo.registro.RegistroDTO;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDateTime;
 
 public class VeiculoRegistroDTO {
     private VeiculoDTO veiculoDTO;

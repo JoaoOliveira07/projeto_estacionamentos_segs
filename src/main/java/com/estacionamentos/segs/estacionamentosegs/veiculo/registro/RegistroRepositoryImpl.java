@@ -26,11 +26,6 @@ public class RegistroRepositoryImpl implements RegistroRepository{
     }
 
     @Override
-    public void deleteByVeiculos(Veiculo veiculo) {
-        repoJpa.deleteByVeiculos(veiculo);
-    }
-
-    @Override
     public List<RegistroVeiculoProjection> findAllByFilter(String filter, String orderBy) {
 
         String queryString =

@@ -22,11 +22,9 @@ public class VeiculoController {
 
     private VeiculoService veiculoService;
 
-    private RegistroService registroService;
 
-    public VeiculoController(VeiculoService theVeiculoService, RegistroService theRegistroService) {
+    public VeiculoController(VeiculoService theVeiculoService) {
         veiculoService = theVeiculoService;
-        registroService = theRegistroService;
     }
 
 
@@ -62,8 +60,6 @@ public class VeiculoController {
 
         // Verificar se o veículo foi encontrado
         if (veiculo != null) {
-            // Deletar todos os registros vinculados ao veículo
-            registroService.deleteByVeiculo(veiculo);
 
             // Deletar o veículo
             veiculoService.deleteByPlaca(placaVeiculo);

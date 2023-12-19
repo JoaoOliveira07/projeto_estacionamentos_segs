@@ -13,8 +13,4 @@ public interface RegistroRepositoryJpa extends JpaRepository<Registro, Integer> 
     @Query("SELECT r FROM Registro r INNER JOIN Veiculo v on v.id = r.veiculos.id WHERE v.placa = :placa AND r.saida is null AND v.deleteTimeStamp is null")
     Registro encontrarRegistrosAtivosPorPlaca(@Param("placa") String placa);
 
-    @Modifying
-    @Query("DELETE FROM Registro r WHERE r.veiculos = :veiculo")
-    void deleteByVeiculos(@Param("veiculo") Veiculo veiculo);
-
 }

@@ -38,15 +38,10 @@ public class RegistroService {
 //        }
 //        return dtos;
 
-    @Transactional
-    public void deleteByVeiculo(Veiculo veiculo) {
-        registroRepository.deleteByVeiculos(veiculo);
-    }
 
     @Transactional
     public void cadastrarEntrada(RegistroDTO registroDTO, VeiculoDTO veiculoDTO, String dataLocal) {
         Veiculo veiculo = veiculoService.getOrCreateVeiculo(veiculoDTO);
-
         // Verifica se há registros ativos (saída == null) para o veículo
         Registro registroAtivo = registroRepository.encontrarRegistrosAtivosPorPlaca(veiculo.getPlaca());
 
