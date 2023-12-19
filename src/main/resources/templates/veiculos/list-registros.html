@@ -61,7 +61,7 @@
             $('#btnGerarRelatorio').on('click', function () {
                 var outputPath = $('#outputPath').val();
                 // Atualize o endpoint do back-end conforme necessário
-                var downloadEndpoint = '/gerarRelatorio?outputPath=' + outputPath;
+                var downloadEndpoint = '/registros/gerarRelatorio?outputPath=' + outputPath;
                 // Redirecione para o endpoint de download
                 window.location.href = downloadEndpoint;
             });
@@ -70,7 +70,7 @@
 function changeOrderBy() {
         var selectElement = document.getElementById("orderBySelect");
         var selectedValue = selectElement.options[selectElement.selectedIndex].value;
-        window.location.href = "/listagemDeRegistros?orderBy=" + selectedValue;
+        window.location.href = "/registros/listagemDeRegistros?orderBy=" + selectedValue;
     }
 
     // Verificar e armazenar a opção selecionada no localStorage
@@ -95,7 +95,7 @@ function realizarPesquisaAoVivo() {
     // Faça uma solicitação AJAX para o servidor
     $.ajax({
         type: 'GET',
-        url: '/listagemDeRegistros',
+        url: '/registros/listagemDeRegistros',
         data: {
             filter: filtro,
             orderBy: 'STATUS_DESC' // Você pode modificar isso conforme necessário
@@ -214,7 +214,7 @@ function realizarPesquisaAoVivo() {
             <td>
                 <div class="row">
                     <div class="col-small">
-                        <form th:action="@{/veiculos/saveSaida}" method="POST" class="text-center">
+                        <form th:action="@{/registros/saveSaida}" method="POST" class="text-center">
                             <div class="modal" id="modalSaida" th:attr="id=${'modalSaida-'+registro.id}" tabindex="-1" role="dialog">
                                 <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
                                     <!-- Utilize a classe modal-sm para tornar o modal pequeno -->

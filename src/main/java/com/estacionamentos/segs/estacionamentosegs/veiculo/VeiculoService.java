@@ -30,16 +30,10 @@ public class VeiculoService {
     public Veiculo findById(int theId) {
         Optional<Veiculo> result = veiculoRepository.findById(theId);
 
-        Veiculo theVeiculo = null;
-
-        if (result.isPresent()) {
-            theVeiculo = result.get();
-        } else {
-            // we didn't find the employee
+        if (result.isEmpty()) {
             throw new RuntimeException("Não foi encontrado ID- " + theId);
         }
-
-        return theVeiculo;
+        return result.get();
     }
     public Veiculo getOrCreateVeiculo(VeiculoDTO veiculoDTO) {
         Veiculo veiculo = veiculoRepository.findByPlaca(veiculoDTO.getPlaca());

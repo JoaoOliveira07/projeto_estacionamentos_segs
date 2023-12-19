@@ -91,10 +91,9 @@ class RelatorioServiceTest {
                 .saida(LocalDateTime.of(2023, 12, 15, 13, 15, 15))
                 .build();
         registroService.cadastrarSaida(registroDTO.getPlaca(), String.valueOf(registroDTO.getSaida()));
-        List<Veiculo> veiculos = veiculoService.findAll();
         List<Registro> registros = registroService.findAll();
 
-        byte[] bytes = relatorioService.gerarRelatorio(veiculos, registros);
+        byte[] bytes = relatorioService.gerarRelatorio(registros);
 
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
              Workbook workbook = new XSSFWorkbook(byteArrayInputStream)) {
@@ -112,25 +111,25 @@ class RelatorioServiceTest {
             assertEquals("Valor", headers.getRow(0).getCell(5).getStringCellValue());
             assertEquals("Status", headers.getRow(0).getCell(6).getStringCellValue());
 
-            assertEquals(veiculos.get(0).getPlaca(), headers.getRow(1).getCell(0).getStringCellValue());
-            assertEquals(veiculos.get(0).getModelo(), headers.getRow(1).getCell(1).getStringCellValue());
-            assertEquals(veiculos.get(0).getTipo(), headers.getRow(1).getCell(2).getStringCellValue());
+            assertEquals(registros.get(0).getVeiculos().getPlaca(), headers.getRow(1).getCell(0).getStringCellValue());
+            assertEquals(registros.get(0).getVeiculos().getModelo(), headers.getRow(1).getCell(1).getStringCellValue());
+            assertEquals(registros.get(0).getVeiculos().getTipo(), headers.getRow(1).getCell(2).getStringCellValue());
             assertEquals(registros.get(0).getEntrada().format(defaultFormat), headers.getRow(1).getCell(3).getStringCellValue());
             assertEquals("", headers.getRow(1).getCell(4).getStringCellValue());
             assertEquals("R$0.0", headers.getRow(1).getCell(5).getStringCellValue());
             assertEquals("Em Andamento", headers.getRow(1).getCell(6).getStringCellValue());
 
-            assertEquals(veiculos.get(1).getPlaca(), headers.getRow(2).getCell(0).getStringCellValue());
-            assertEquals(veiculos.get(1).getModelo(), headers.getRow(2).getCell(1).getStringCellValue());
-            assertEquals(veiculos.get(1).getTipo(), headers.getRow(2).getCell(2).getStringCellValue());
+            assertEquals(registros.get(1).getVeiculos().getPlaca(), headers.getRow(2).getCell(0).getStringCellValue());
+            assertEquals(registros.get(1).getVeiculos().getModelo(), headers.getRow(2).getCell(1).getStringCellValue());
+            assertEquals(registros.get(1).getVeiculos().getTipo(), headers.getRow(2).getCell(2).getStringCellValue());
             assertEquals(registros.get(1).getEntrada().format(defaultFormat), headers.getRow(2).getCell(3).getStringCellValue());
             assertEquals("", headers.getRow(2).getCell(4).getStringCellValue());
             assertEquals("R$0.0", headers.getRow(2).getCell(5).getStringCellValue());
             assertEquals("Em Andamento", headers.getRow(2).getCell(6).getStringCellValue());
 
-            assertEquals(veiculos.get(2).getPlaca(), headers.getRow(3).getCell(0).getStringCellValue());
-            assertEquals(veiculos.get(2).getModelo(), headers.getRow(3).getCell(1).getStringCellValue());
-            assertEquals(veiculos.get(2).getTipo(), headers.getRow(3).getCell(2).getStringCellValue());
+            assertEquals(registros.get(2).getVeiculos().getPlaca(), headers.getRow(3).getCell(0).getStringCellValue());
+            assertEquals(registros.get(2).getVeiculos().getModelo(), headers.getRow(3).getCell(1).getStringCellValue());
+            assertEquals(registros.get(2).getVeiculos().getTipo(), headers.getRow(3).getCell(2).getStringCellValue());
             assertEquals(registros.get(2).getEntrada().format(defaultFormat), headers.getRow(3).getCell(3).getStringCellValue());
             assertEquals(registros.get(2).getSaida().format(defaultFormat), headers.getRow(3).getCell(4).getStringCellValue());
             assertEquals("R$2.0", headers.getRow(3).getCell(5).getStringCellValue());

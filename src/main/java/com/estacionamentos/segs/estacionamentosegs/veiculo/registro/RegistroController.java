@@ -1,8 +1,6 @@
 package com.estacionamentos.segs.estacionamentosegs.veiculo.registro;
 
-import com.estacionamentos.segs.estacionamentosegs.veiculo.RelatorioService;
-import com.estacionamentos.segs.estacionamentosegs.veiculo.Veiculo;
-import com.estacionamentos.segs.estacionamentosegs.veiculo.VeiculoService;
+import com.estacionamentos.segs.estacionamentosegs.veiculo.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,19 +8,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
 
 @Controller
+@RequestMapping("/registros")
 public class RegistroController {
 
     private final RegistroService registroService;
-    private final VeiculoService veiculoService;
     private final RelatorioService relatorioService;
 
-    public RegistroController(VeiculoService veiculoService, RegistroService registroService, RelatorioService relatorioService) {
-        this.veiculoService = veiculoService;
+    public RegistroController(RegistroService registroService, RelatorioService relatorioService) {
         this.registroService = registroService;
         this.relatorioService = relatorioService;
     }
@@ -32,10 +30,9 @@ public class RegistroController {
     public ResponseEntity<byte[]> gerarRelatorio(
             @RequestParam("outputPath") String outputPath
     ) throws IOException {
-        List<Veiculo> veiculos = veiculoService.findAll();
         List<Registro> registros = registroService.findAll();
 
-        byte[] relatorioBytes = relatorioService.gerarRelatorio(veiculos, registros);
+        byte[] relatorioBytes = relatorioService.gerarRelatorio(registros);
 
         // Configurar o cabeçalho para indicar o tipo de conteúdo e o nome do arquivo
         HttpHeaders headers = new HttpHeaders();
@@ -57,5 +54,27 @@ public class RegistroController {
         return "veiculos/list-registros";
     }
 
+    //Salvar no banco o novo veículo e um registro de Entrada
+    @PostMapping("/save")
+    public String saveVeiculoRegistro(@RequestParam("dataLocal") String dataLocal, @ModelAttribute("veiculoRegistroDTO") VeiculoRegistroDTO veiculoRegistroDTO) {
+        VeiculoDTO veiculoDTO = veiculoRegistroDTO.getVeiculoDTO();
+        RegistroDTO registroDTO = veiculoRegistroDTO.getRegistroDTO();
+
+        registroService.cadastrarEntrada(registroDTO, veiculoDTO, dataLocal);
+        return "redirect:/registros/listagemDeRegistros";
+    }
+
+    //Registrar a saída do veículo
+    @PostMapping("/saveSaida")
+    public String saveSaidaRegistro(@RequestParam("placa") String placa,
+                                    @RequestParam("saida") String saida, RedirectAttributes redirectAttributes) {
+        try {
+            registroService.cadastrarSaida(placa, saida);
+            redirectAttributes.addFlashAttribute("mensagemSucesso", "Saída cadastrada com sucesso.");
+        } catch (DataInvalidaException e) {
+            redirectAttributes.addFlashAttribute("mensagemErro", "Erro ao cadastrar a saída: " + e.getMessage());
+        }
+        return "redirect:/registros/listagemDeRegistros";
+    }
 
 }

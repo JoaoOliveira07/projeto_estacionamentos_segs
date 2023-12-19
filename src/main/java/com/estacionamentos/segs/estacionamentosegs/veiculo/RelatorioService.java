@@ -14,7 +14,7 @@ import java.util.List;
 public class RelatorioService {
 
     //Método recebe duas listas veiculo e registros e retorna um ARRAY DE BYTES que representa o conteúdo do relatorio em formato Excel
-    public byte[] gerarRelatorio(List<Veiculo> veiculos, List<Registro> registros) throws IOException {
+    public byte[] gerarRelatorio(List<Registro> registros) throws IOException {
         try (Workbook workbook = new XSSFWorkbook()) { //XSSFWorkbook representa um arquivo Excel
             Sheet sheet = workbook.createSheet("Veiculo_Registros"); //Aqui é nome que vai ser representado dentro do excel
 

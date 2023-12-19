@@ -30,7 +30,7 @@
     <hr>
     <br>
     <p class="h4 mb-4">Novo Registro</p>
-    <form action="#" th:action="@{/veiculos/save}" th:object="${veiculoRegistroDTO}" method="POST" id="veiculoForm">
+    <form action="#" th:action="@{/registros/save}" th:object="${veiculoRegistroDTO}" method="POST" id="veiculoForm">
         <!-- Campos para Veiculo -->
         <h6>Placa</h6>
         <input type="text" th:field="*{veiculoDTO.placa}" class="form-control mb-4 w-25" placeholder="MIG8223"
@@ -55,7 +55,7 @@
         <img th:src="@{/img/exemplo_placa.png}" alt="Exemplo de Placa" style="width: 250px; height: auto;">
     </div>
     <hr>
-    <a th:href="@{/listagemDeRegistros}">Voltar para o Controle</a>
+    <a th:href="@{/registros/listagemDeRegistros}">Voltar para o Controle</a>
 </div>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"

@@ -17,7 +17,4 @@ public interface RegistroRepositoryJpa extends JpaRepository<Registro, Integer> 
     @Query("DELETE FROM Registro r WHERE r.veiculos = :veiculo")
     void deleteByVeiculos(@Param("veiculo") Veiculo veiculo);
 
-
-
-
 }

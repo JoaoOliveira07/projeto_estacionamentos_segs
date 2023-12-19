@@ -22,7 +22,6 @@ public class VeiculoController {
 
     private VeiculoService veiculoService;
 
-
     private RegistroService registroService;
 
     public VeiculoController(VeiculoService theVeiculoService, RegistroService theRegistroService) {
@@ -52,17 +51,9 @@ public class VeiculoController {
         return "veiculos/cadastro-veiculo";
     }
 
-    //Salvar no banco o novo veículo e um registro de Entrada
-    @PostMapping("/save")
-    public String saveVeiculoRegistro(@RequestParam("dataLocal") String dataLocal, @ModelAttribute("veiculoRegistroDTO") VeiculoRegistroDTO veiculoRegistroDTO) {
-        VeiculoDTO veiculoDTO = veiculoRegistroDTO.getVeiculoDTO();
-        RegistroDTO registroDTO = veiculoRegistroDTO.getRegistroDTO();
-
-        registroService.cadastrarEntrada(registroDTO, veiculoDTO, dataLocal);
-        return "redirect:/listagemDeRegistros";
-    }
 
     //Deletar um veículo e todos os registros relacionados a ele
+
     @PostMapping("/delete")
     @Transactional
     public String delete(@RequestParam("placaVeiculo") String placaVeiculo) {
@@ -83,35 +74,22 @@ public class VeiculoController {
         }
     }
 
-
     //Botão Alterar, que retorna os dados do veículo pelo ID
+
     @GetMapping("/showFormForUpdate")
     public String showFormForUpdate(@RequestParam("veiculoId") int theId, Model theModel) {
         Veiculo theVeiculo = veiculoService.findById(theId);
         theModel.addAttribute("veiculos", theVeiculo);
         return "veiculos/update-veiculo";
     }
-
     //Botão de salvar a alteração
+
     @PostMapping("/saveUpdate")
     public String saveVeiculo(@ModelAttribute("veiculos") Veiculo theVeiculo) {
 
         veiculoService.save(theVeiculo);
 
         return "redirect:/veiculos/listagemDeVeiculos";
-    }
-
-    //Registrar a saída do veículo
-    @PostMapping("/saveSaida")
-    public String saveSaidaRegistro(@RequestParam("placa") String placa,
-                                    @RequestParam("saida") String saida, RedirectAttributes redirectAttributes) {
-        try {
-            registroService.cadastrarSaida(placa, saida);
-            redirectAttributes.addFlashAttribute("mensagemSucesso", "Saída cadastrada com sucesso.");
-        } catch (DataInvalidaException e) {
-            redirectAttributes.addFlashAttribute("mensagemErro", "Erro ao cadastrar a saída: " + e.getMessage());
-        }
-        return "redirect:/listagemDeRegistros";
     }
 
     @GetMapping("/verificarPlaca/{placa}")

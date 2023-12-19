@@ -13,7 +13,5 @@ public interface RegistroRepository {
 
     Registro save(Registro registro);
 
-
-
 }
 

@@ -43,9 +43,6 @@ public class RegistroService {
         registroRepository.deleteByVeiculos(veiculo);
     }
 
-
-
-
     @Transactional
     public void cadastrarEntrada(RegistroDTO registroDTO, VeiculoDTO veiculoDTO, String dataLocal) {
         Veiculo veiculo = veiculoService.getOrCreateVeiculo(veiculoDTO);

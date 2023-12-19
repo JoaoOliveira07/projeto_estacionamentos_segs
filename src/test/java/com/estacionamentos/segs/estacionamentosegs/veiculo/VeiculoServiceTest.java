@@ -120,6 +120,15 @@ class VeiculoServiceTest {
     }
 
     @Test
+    void findByIdNotExist() {
+        Assertions.assertThrows(
+                RuntimeException.class,
+                () -> veiculoService.findById(1),
+                "Não foi encontrado ID- 1"
+        );
+    }
+
+    @Test
     void deleteByPlaca() {
         List<Veiculo> veiculos = veiculoService.findAll();
         assertEquals(1,veiculos.size());
