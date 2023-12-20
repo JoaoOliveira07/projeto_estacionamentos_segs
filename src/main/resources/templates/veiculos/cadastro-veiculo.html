@@ -119,7 +119,7 @@
 
         // Habilitar o botão se todos os campos estiverem preenchidos
         var botaoSalvar = document.getElementById('botaoSalvar');
-        botaoSalvar.disabled = !((placa && modelo && tipo && horarioEntrada) || (placa && modeloReadonly && tipoReadonly && horarioEntrada));
+        botaoSalvar.disabled = !((placa && modelo && tipo && horarioEntrada) || (placa && modeloReadonly && tipoReadonly && horarioEntrada) || formatoInvalido);
     }
 
     // Adicionar eventos de escuta para os campos
@@ -128,9 +128,35 @@
     document.getElementById('tipo').addEventListener('input', verificarCamposPreenchidos);
     document.getElementById('horarioEntrada').addEventListener('input', verificarCamposPreenchidos);
 
+    function validarFormato() {
+        var input = document.getElementById('horarioEntrada');
+        var regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(20\d\d) (0\d|1\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+
+        if (regex.test(input.value)) {
+            console.log('Formato válido');
+            // Formato válido, não fazer nada
+        } else {
+            alert('Formato inválido! Utilize o formato Dia/Mês/Ano Hora:Minuto:Segundo');
+            // Desabilitar o botão se o formato for inválido
+            formatoInvalido = true;
+            verificarCamposPreenchidos();
+        }
+    }
+
+    var formatoInvalido = false;  // Nova variável para controlar o formato inválido
 
     var now = new Date();
-    var formattedDateTime = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString('en-GB');
+    var formattedDateTime = now.getDate().toString().padStart(2, '0') + '/' +
+                            (now.getMonth() + 1).toString().padStart(2, '0') + '/' +
+                            now.getFullYear() + ' ' +
+                            now.getHours().toString().padStart(2, '0') + ':' +
+                            now.getMinutes().toString().padStart(2, '0') + ':' +
+                            now.getSeconds().toString().padStart(2, '0');
+
     document.getElementById('horarioEntrada').value = formattedDateTime;
+
+    // Event listener para verificar o formato ao perder o foco
+    document.getElementById('horarioEntrada').addEventListener('blur', validarFormato);
+
 </script>
 </html>
